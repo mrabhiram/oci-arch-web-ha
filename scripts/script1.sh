@@ -13,7 +13,10 @@ sudo systemctl disable firewalld
 sudo echo "Installing the docker engine"
 
 sudo yum update -y
-sudo yum install -y docker-engine
+sudo yum install -y yum-utils
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+sudo yum update -y
+sudo yum install docker-ce docker-ce-cli containerd.io -y
 sudo systemctl enable docker
 sudo systemctl start docker
 
@@ -23,13 +26,10 @@ PASSWORD=$3
 # Pulling the docker image from docker hub
 sudo echo "Pulling the docker image from docker hub"
 
-sudo docker login --username="${USERNAME}" --password="${PASSWORD}"
+#sudo docker login --username="${USERNAME}" --password="${PASSWORD}"
 sudo docker pull testuser2000/python-flask:python-flask-app
 
 # deploying the app
 sudo echo "deploying the app"
-
-DATABASE_IP=$1 
-sudo docker run -d -e DB_IP="${DATABASE_IP}" -p 5000:5000 --restart=always testuser2000/python-flask:python-flask-app
-
+sudo docker run hello-world
 sudo echo "Script run complete and exiting"
